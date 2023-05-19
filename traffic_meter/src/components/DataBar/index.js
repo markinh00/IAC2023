@@ -68,14 +68,24 @@ export default function DataBar({ tittle }) {
 
     const handleChange = (event) => {
         const number = Number(event.target.value); 
-        if(number < value) setMaxvalue(value);
-        else if(number < 0) setMaxvalue(0);
+        if(number < 0) setMaxvalue(0);
+        else setMaxvalue(number);
+    }
+
+    const updatevaluePercent = (number) => {
+        if(number >= 100){
+            setValuePercent(100);
+        }else if(number < 0){
+            setValuePercent(0);
+        } else {
+            setValuePercent(number)
+        }
     }
 
     useEffect(() => {
         calcValue(user.data, tittle).then(res => {
             setValue(res);
-            setValuePercent(Number((value / maxValue * 100).toFixed(2)));
+            updatevaluePercent(Number((value / maxValue * 100).toFixed(2)));
         }).catch(error => {
             console.log(error);
         });
@@ -106,8 +116,8 @@ export default function DataBar({ tittle }) {
                             value={maxValue}
                             setSize={String(maxValue).length}
                             onChange={handleChange}
-                            type="number"
                             min={value}
+                            type="text"
                         />
                         MB
                     </StyledDataBarText>
