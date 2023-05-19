@@ -11,6 +11,7 @@ export default function DataBar({ tittle }) {
     const [value, setValue] = useState(0);
     const [maxValue, setMaxvalue] = useState(tittle === "download" ? user.maxdownload : user.maxupload); //MB
     const [valuePercent, setValuePercent] = useState(0);
+    const [alert, setAlert] = useState(false);
 
     const filterUnity = (string) => {
         if (string.includes("GB")) {
@@ -75,21 +76,26 @@ export default function DataBar({ tittle }) {
         calcValue(user.data, tittle).then(res => {
             setValue(res);
             setValuePercent(Number((value / maxValue * 100).toFixed(2)));
-
-            if (value >= maxValue) {
-                setValuePercent(100);
-            }
         }).catch(error => {
             console.log(error);
         });
 
     }, [user.data, maxValue]);
 
+    useEffect(() => {
+        if (value >= maxValue) {
+            setValuePercent(100);
+            setAlert(true);
+        }else{
+            setAlert(false);
+        }
+    },[value, maxValue]);
+
     return (
         <StyledDataBarContainer>
             <StyledDataBarTittle>{tittle}</StyledDataBarTittle>
             <StyledDataBarContent>
-                <StyledDataBarValue value={valuePercent} />
+                <StyledDataBarValue value={valuePercent} alert={alert}/>
             </StyledDataBarContent>
             <StyledDataBarTextArea>
                 <StyledDataBarText>value: {value}MB</StyledDataBarText>

@@ -29,7 +29,7 @@ export const StyledDataBarContent = styled.div`
 `;
 
 export const StyledDataBarValue = styled.div`
-    background-color: ${colors.tertiary};
+    background-color: ${props => props.alert? colors.error : colors.tertiary};
 
     height: inherit;
     width: ${props => props.value ? props.value + "%" : null};
