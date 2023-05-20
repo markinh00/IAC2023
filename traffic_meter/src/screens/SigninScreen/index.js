@@ -41,6 +41,9 @@ export default function SignInScreen() {
                             id: userCredential.user.uid,
                             nickname: userInputs.nickname,
                             email: userInputs.email,
+                            maxdownload: 5,
+                            maxupload: 5,
+                            data: []
                         }
                         createUser(newUser)
                             .then(res => {

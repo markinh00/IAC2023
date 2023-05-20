@@ -22,7 +22,7 @@ io.on("connection", (socket) => {
     network_client.on("data", async (data) => {
         //socket.emit("data", JSON.parse(data));
         const userID = socket.data.userID;
-        if (userID) {
+        if (userID && userID !== "") {
             const res = await database.updateUserData(userID, JSON.parse(data));
             console.log(res);
         }
